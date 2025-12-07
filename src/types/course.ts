@@ -45,3 +45,15 @@ export interface Testimonial {
   role: string;
   avatar: string;
 }
+
+export interface Review {
+  id: string;
+  courseId: string;
+  userId: string;
+  userName: string;
+  userAvatar: string;
+  rating: number;
+  comment: string;
+  createdAt: string;
+  helpful: number;
+}
