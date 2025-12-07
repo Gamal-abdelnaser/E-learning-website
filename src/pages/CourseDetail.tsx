@@ -5,12 +5,16 @@ import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { CurriculumSection } from "@/components/course/CurriculumSection";
+import { ReviewsSection } from "@/components/course/ReviewsSection";
 import { allCourses, courseSections } from "@/data/courses";
+import { getReviewsByCourseId, getAverageRating } from "@/data/reviews";
 
 const CourseDetailPage = () => {
   const { id } = useParams();
-  const course = allCourses.find((c) => c.id === id) || allCourses[7]; // Default to SwiftUI course
+  const course = allCourses.find((c) => c.id === id) || allCourses[7];
   const progress = course.progress || 65;
+  const reviews = getReviewsByCourseId(course.id);
+  const averageRating = getAverageRating(course.id);
 
   return (
     <main className="min-h-screen bg-background pb-24">
@@ -61,11 +65,20 @@ const CourseDetailPage = () => {
         <Tabs defaultValue="curriculum">
           <TabsList>
             <TabsTrigger value="curriculum">Curriculum</TabsTrigger>
+            <TabsTrigger value="reviews">Reviews</TabsTrigger>
             <TabsTrigger value="about">About</TabsTrigger>
           </TabsList>
           
           <TabsContent value="curriculum">
             <CurriculumSection sections={courseSections} />
+          </TabsContent>
+
+          <TabsContent value="reviews">
+            <ReviewsSection 
+              courseId={course.id} 
+              reviews={reviews} 
+              averageRating={averageRating} 
+            />
           </TabsContent>
           
           <TabsContent value="about">
